@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Repos\UserRepo;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterUserRequest;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -14,10 +17,32 @@ class AuthController extends Controller
     {
     }
 
+    public function postLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required:string',
+            'password' => 'required:string'
+        ]);
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'message' => 'Invalid login details'
+           ], 401);
+        }
+
+        $user = User::where('email', $request['email'])->firstOrFail();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+           'access_token' => $token,
+           'token_type' => 'Bearer'
+        ]);
+    }
+
     public function postRegister(RegisterUserRequest $request)
     {
         if ($this->userRepo->isDuplicate($request->email)) {
-            //throw new BadRequestHttpException('duplicate user');
+            throw new BadRequestHttpException('duplicate user');
         }
 
         $user = User::create([
