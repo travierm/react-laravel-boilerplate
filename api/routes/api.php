@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Services\AutomatedRouter;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+AutomatedRouter::setAutomatedModels([
+    'App\Models\Database' => 'database'
+]);
+
+Route::post('/auth/register', [AuthController::class, 'postRegister']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    AutomatedRouter::registerRoutes();
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });

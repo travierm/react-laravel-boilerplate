@@ -5,7 +5,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import * as React from 'react';
 
-import { App } from '../components/App';
+import { App } from '../src/App';
 import createEmotionCache from '../src/createEmotionCache';
 import theme from '../src/theme';
 
