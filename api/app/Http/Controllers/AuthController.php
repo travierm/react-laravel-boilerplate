@@ -41,10 +41,6 @@ class AuthController extends Controller
 
     public function postRegister(RegisterUserRequest $request)
     {
-        if ($this->userRepo->isDuplicate($request->email)) {
-            throw new BadRequestHttpException('duplicate user');
-        }
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
