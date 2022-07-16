@@ -20,8 +20,12 @@ AutomatedRouter::setAutomatedModels([
     'App\Models\Database' => 'database'
 ]);
 
-Route::post('/auth/login', [AuthController::class, 'postLogin']);
-Route::post('/auth/register', [AuthController::class, 'postRegister']);
+Route::namespace('API')->group(function () {
+    Route::post('/auth/login', [AuthController::class, 'postLogin']);
+    Route::post('/auth/register', [AuthController::class, 'postRegister']);
+});
+
+
 
 Route::middleware('auth:sanctum')->group(function () {
     AutomatedRouter::registerRoutes();

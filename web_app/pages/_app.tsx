@@ -9,15 +9,26 @@ import { App } from '../src/App';
 import createEmotionCache from '../src/createEmotionCache';
 import theme from '../src/theme';
 
+interface AuthContext {
+  name?: string
+}
+interface Props extends AppProps {
+  emotionCache?: EmotionCache;
+  session: any;
+}
+
+export const AuthContext = React.createContext<AuthContext>({});
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
-}
+export default function MyApp(props: any,) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps, session } = props;
 
-export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const [user, setUser] = React.useState({
+    name: 'travier'
+  })
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -25,9 +36,12 @@ export default function MyApp(props: MyAppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App>
-          <Component {...pageProps} />
-        </App>
+
+        <AuthContext.Provider value={user}>
+          <App>
+            <Component {...pageProps} />
+          </App>
+        </AuthContext.Provider>
       </ThemeProvider>
     </CacheProvider>
   );

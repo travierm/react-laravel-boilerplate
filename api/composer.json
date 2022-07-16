@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "cumulati/monolog-context": "^2.0",
+        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.15",
