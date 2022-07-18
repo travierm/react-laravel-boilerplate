@@ -11,7 +11,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <h1>Index {user.name}</h1>
+      <h1>Index {user.name} 2</h1>
     </div>
   );
 };
