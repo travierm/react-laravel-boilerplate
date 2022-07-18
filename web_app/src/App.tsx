@@ -17,40 +17,47 @@ import { Component } from 'react';
 const drawerWidth = 240;
 
 export function App(props: any) {
+	const shouldShowSidebar: boolean = false;
+
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
 			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
 				<Toolbar>
 					<Typography variant="h6" noWrap component="div">
-						Personal Graph Database
+						React Laravel Boilerplate
 					</Typography>
 				</Toolbar>
 			</AppBar>
-			<Drawer
-				variant="permanent"
-				sx={{
-					width: drawerWidth,
-					flexShrink: 0,
-					[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-				}}
-			>
-				<Toolbar />
-				<Box sx={{ overflow: 'auto' }}>
-					<List>
-						{['Nodes', 'Databases', 'Account'].map((text, index) => (
-							<ListItem key={text} disablePadding>
-								<ListItemButton>
-									<ListItemIcon>
-										{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-									</ListItemIcon>
-									<ListItemText primary={text} />
-								</ListItemButton>
-							</ListItem>
-						))}
-					</List>
-				</Box>
-			</Drawer>
+
+			{shouldShowSidebar &&
+				<Drawer
+					variant="permanent"
+					sx={{
+						width: drawerWidth,
+						flexShrink: 0,
+						[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+					}}
+				>
+					<Toolbar />
+
+					<Box sx={{ overflow: 'auto' }}>
+						<List>
+							{['Inbox', 'Sent', 'Archive'].map((text, index) => (
+								<ListItem key={text} disablePadding>
+									<ListItemButton>
+										<ListItemIcon>
+											{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+										</ListItemIcon>
+										<ListItemText primary={text} />
+									</ListItemButton>
+								</ListItem>
+							))}
+						</List>
+					</Box>
+
+				</Drawer>
+			}
 			<Box component="main" sx={{ flexGrow: 1, p: 3, mt: 4 }}>
 				{props.children}
 			</Box>

@@ -1,8 +1,18 @@
-import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
+import { useAuth } from '../hooks/useAuth';
+
+import type { NextPage } from 'next';
 const Home: NextPage = () => {
+  const router = useRouter()
+  const { user, redirectIfNotAuthed } = useAuth()
+
+  redirectIfNotAuthed()
+
   return (
-    <h1>Index</h1>
+    <div>
+      <h1>Index {user.name}</h1>
+    </div>
   );
 };
 

@@ -12,31 +12,26 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-
-function Copyright(props: any) {
-	return (
-		<Typography variant="body2" color="text.secondary" align="center" {...props}>
-			{'Copyright © '}
-			<Link color="inherit" href="https://mui.com/">
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
+import { registerUser } from '../api/auth';
 
 interface IFormInput {
-	email: string;
+	name: string;
+	email: string,
 	password: string;
 }
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Register() {
 	const { register, watch, handleSubmit, formState: { errors } } = useForm();
 
-	const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
+	const onSubmit: SubmitHandler<IFormInput> = data => (
+		registerUser(data.name, data.email, data.password).then((resp) => {
+
+			console.log(resp);
+			//redirect('/');
+		})
+	)
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -54,9 +49,22 @@ export default function Login() {
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Login
+						Register Account
 					</Typography>
 					<Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+						{/* name */}
+						<TextField
+							{...register('name', { required: true })}
+							margin="normal"
+							required
+							fullWidth
+							id="name"
+							label="Username"
+							name="name"
+							autoComplete="name"
+							autoFocus
+						/>
+
 						<TextField
 							{...register('email', { required: true })}
 							margin="normal"
@@ -85,23 +93,17 @@ export default function Login() {
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
 						>
-							Login
+							Sign In
 						</Button>
 						<Grid container>
-							{/* <Grid item xs>
-								<Link href="#" variant="body2">
-									Forgot password?
-								</Link>
-							</Grid> */}
 							<Grid item>
-								<Link href="/register" variant="body2">
-									{"Don't have an account? Register"}
+								<Link href="/login" variant="body2">
+									{"Already have an account?"}
 								</Link>
 							</Grid>
 						</Grid>
 					</Box>
 				</Box>
-				<Copyright sx={{ mt: 8, mb: 4 }} />
 			</Container>
 		</ThemeProvider>
 	);
