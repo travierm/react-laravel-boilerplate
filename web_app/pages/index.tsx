@@ -5,13 +5,11 @@ import { useAuth } from '../hooks/useAuth';
 import type { NextPage } from 'next';
 const Home: NextPage = () => {
   const router = useRouter()
-  const { user, redirectIfNotAuthed } = useAuth()
-
-  redirectIfNotAuthed()
+  const { authContext } = useAuth(true)
 
   return (
     <div>
-      <h1>Index {user.name} 2</h1>
+      <h1>Index {authContext?.user?.name} 2</h1>
     </div>
   );
 };

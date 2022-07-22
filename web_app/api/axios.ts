@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import { LocalStorageDriver } from '../src/drivers/localStorageDriver';
+
+const localStorageDriver = new LocalStorageDriver
 const http = axios.create({
 	withCredentials: true,
 	baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -7,7 +10,8 @@ const http = axios.create({
 
 http.interceptors.request.use(
 	function (config: any) {
-		const token = window.localStorage.getItem('token')
+
+		const token = localStorageDriver.get('app_storage_token')
 		if (token != null) {
 			config.headers.Authorization = `Bearer ${token}`
 		}

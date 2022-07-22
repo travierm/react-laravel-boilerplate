@@ -4,14 +4,31 @@ export class LocalStorageDriver {
 
 	}
 
+	clear() {
+		if (typeof window === "undefined") {
+			return;
+		}
+
+
+		localStorage.clear();
+	}
+
 	get(key: string) {
+		if (typeof window === "undefined") {
+			return;
+		}
+
 		return localStorage.getItem(key);
 	}
 
 	set(key: string, value: any) {
+		if (typeof window === "undefined") {
+			return;
+		}
+
+
 		localStorage.setItem(key, value);
 	}
-
 
 	setJson(key: string, value: any) {
 		const data = JSON.stringify(value)
