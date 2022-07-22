@@ -1,38 +1,36 @@
-import './App.css';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import React from 'react';
 
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { AppSidebar } from './components/AppSideBar';
 
-import reactLogo from './assets/react.svg';
-
-function App() {
-  const [count, setCount] = useState(0)
-
+export function App(props: any) {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
+    <Box sx={{ display: 'flex' }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <Toolbar sx={{}}>
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            React Laravel Boilerplate
+          </Typography>
 
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count} hello world
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+          <Button>Logout</Button>
+        </Toolbar>
+      </AppBar>
+
+      <AppSidebar></AppSidebar>
+
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 4 }}>
+        {props.children}
+
+        <Typography variant="body2" color="text.secondary " align="center">
+          {'Copyright © '}
+          <a>React Laravel Boilerplate </a>
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
+      </Box>
+    </Box>
+  );
 }
+
 
 export default App
