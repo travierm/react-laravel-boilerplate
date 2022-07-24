@@ -1,26 +1,16 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
 import React from 'react';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 
-import { useAuth } from '../../contexts/auth-context';
-import { UserAuthForm } from '../../http/auth';
-
-
-export function LoginPage() {
-	const { login } = useAuth()
-	const { register, watch, handleSubmit, formState: { errors } } = useForm();
-
-	//const onSubmit = data as UserAuthForm => login(data);
-
-	function onSubmit(data: UserAuthForm) {
-		return login(data.email, data.password)
-	}
-
-	/*const handleSubmit = (data: UserAuthForm) => {
-		onSubmit(data);
-	}*/
+export function RegisterPage() {
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const data = new FormData(event.currentTarget);
+		console.log({
+			email: data.get('email'),
+			password: data.get('password'),
+		});
+	};
 
 	return (
 		<Box
@@ -37,27 +27,26 @@ export function LoginPage() {
 			<Typography component="h1" variant="h5">
 				Sign in
 			</Typography>
-
-			<Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+			<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 				<TextField
 					margin="normal"
 					required
 					fullWidth
 					id="email"
 					label="Email Address"
+					name="email"
 					autoComplete="email"
 					autoFocus
-					{...register('email', { required: true })}
 				/>
 				<TextField
 					margin="normal"
 					required
 					fullWidth
+					name="password"
 					label="Password"
 					type="password"
 					id="password"
 					autoComplete="current-password"
-					{...register('password', { required: true })}
 				/>
 				<FormControlLabel
 					control={<Checkbox value="remember" color="primary" />}
