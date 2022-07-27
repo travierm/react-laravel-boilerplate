@@ -74,9 +74,17 @@ export const AuthProvider: React.FC<Props> = ({ children }): JSX.Element => {
 
 		loginUser(user)
 			.then((data) => {
-				console.log('got from loginUser ', data)
+				setUser({
+					id: data.id,
+					email: data.email,
+					token: data.token
+				})
+
+				navigate('/');
 			})
 			.catch((err) => {
+				setUser(undefined)
+
 				throw err
 			})
 

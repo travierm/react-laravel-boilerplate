@@ -2,25 +2,20 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuth } from '../../contexts/auth-context';
-import { UserAuthForm } from '../../http/auth';
 
+type FormValues = {
+	email: string;
+	password: string;
+};
 
 export function LoginPage() {
 	const { login } = useAuth()
-	const { register, watch, handleSubmit, formState: { errors } } = useForm();
+	const { register, handleSubmit } = useForm<FormValues>();
 
-	//const onSubmit = data as UserAuthForm => login(data);
-
-	function onSubmit(data: UserAuthForm) {
-		return login(data.email, data.password)
-	}
-
-	/*const handleSubmit = (data: UserAuthForm) => {
-		onSubmit(data);
-	}*/
+	const onSubmit: SubmitHandler<FormValues> = data => login(data.email, data.password)
 
 	return (
 		<Box
@@ -40,6 +35,7 @@ export function LoginPage() {
 
 			<Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
 				<TextField
+
 					margin="normal"
 					required
 					fullWidth

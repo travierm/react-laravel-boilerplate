@@ -20,20 +20,19 @@ export type CreateUserResponse = {
 };
 
 type LoginResponse = {
-	id: string,
-	email: string,
-	token: string
+	id: number,
+	token: string,
+	email: string
 }
 
 export async function sanctumCsrf() {
 	return httpClient.get('/sanctum/csrf-cookie')
 }
 
-export async function loginUser(requestData: UserAuthForm): Promise<CreateUserResponse> {
+export async function loginUser(requestData: UserAuthForm): Promise<LoginResponse> {
 	try {
-		console.log('here')
 		await sanctumCsrf()
-		const { data } = await httpClient.post<CreateUserResponse>(routes.LOGIN, requestData)
+		const { data } = await httpClient.post<LoginResponse>(routes.LOGIN, requestData)
 
 		return data;
 	} catch (error) {
